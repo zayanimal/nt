@@ -1,13 +1,22 @@
 package com.zayanimal.nt;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import us.abstracta.jmeter.javadsl.core.TestPlanStats;
 
-@SpringBootTest
+import java.io.IOException;
+
+import static us.abstracta.jmeter.javadsl.JmeterDsl.*;
+
 class NtApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void performance() throws IOException {
+		TestPlanStats stats = testPlan(
+			threadGroup(4, 1,
+				httpSampler("http://localhost:8080")
+			),
+			//this is just to log details of each request stats
+			jtlWriter("target/jtls")
+		).run();
 	}
-
 }

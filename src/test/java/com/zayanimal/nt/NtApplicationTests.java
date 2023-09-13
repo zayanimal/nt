@@ -12,11 +12,17 @@ class NtApplicationTests {
 	@Test
 	void performance() throws IOException {
 		TestPlanStats stats = testPlan(
-			threadGroup(4, 1,
-				httpSampler("http://localhost:8080")
-			),
-			//this is just to log details of each request stats
-			jtlWriter("target/jtls")
+			threadGroup(5, 1,
+				httpSampler("http://localhost:8080/queue")
+					.param("timeout", "10000")
+			)
+		).run();
+
+		TestPlanStats stats2 = testPlan(
+			threadGroup(5, 1,
+				httpSampler("http://localhost:8080/queue")
+					.param("timeout", "1000")
+			)
 		).run();
 	}
 }

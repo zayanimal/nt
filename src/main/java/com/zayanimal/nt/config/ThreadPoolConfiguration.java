@@ -1,5 +1,6 @@
 package com.zayanimal.nt.config;
 
+import org.apache.tomcat.util.threads.TaskThreadFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,7 @@ public class ThreadPoolConfiguration {
 
     @Bean
     public ExecutorService exec() {
-        return Executors.newFixedThreadPool(2);
+        return Executors.newFixedThreadPool(10,
+            new TaskThreadFactory("audit-pool-", false, Thread.NORM_PRIORITY));
     }
 }
